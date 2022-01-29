@@ -20,9 +20,10 @@ class TodoScreen extends StatelessWidget {
         ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(todo.todoMessage),
+          _completionIndicator(todo),
         ],
       ),
     );
@@ -34,6 +35,22 @@ class TodoScreen extends StatelessWidget {
       child: _todoTile(todo, context),
       background: Container(
         color: Colors.indigo,
+      ),
+      confirmDismiss: (_) async {
+        BlocProvider.of<TodoCubit>(context).changeCompletion(todo);
+        return false;
+      }
+    );
+  }
+
+  Widget _completionIndicator(Todo todo) {
+    return Container(
+      width: 20,
+      height: 20,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        border: Border.all(
+            width: 4, color: todo.isCompleted ? Colors.green : Colors.red),
       ),
     );
   }
