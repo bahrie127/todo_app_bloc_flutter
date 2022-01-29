@@ -20,4 +20,12 @@ class Repository {
     print(patchObj);
     return await networkService.patchTodo(patchObj, id);
   }
+
+  Future<Todo?> addTodo(String message) async{
+    final todoObject = {'todo': message, 'isCompleted': 'false'};
+    final todoMap = await networkService.addTodo(todoObject);
+    if (todoMap.isEmpty) return null;
+    return Todo.fromMap(todoMap as Map<String, dynamic>);
+
+  }
 }
